@@ -12,6 +12,13 @@ pub fn printAnotherMessage(writer: *std.Io.Writer) !void {
     const output = try std.fmt.allocPrint(allocator, "Hello {s}!!!", .{name});
 
     try writer.print("{s}\n", .{output});
+
+    const random_number = try allocator.create(u32);
+    defer allocator.destroy(random_number);
+
+    random_number.* = @as(u32, 22);
+    try writer.print("Number: {d}\n", .{random_number.*});
+
     try writer.flush();
 }
 
