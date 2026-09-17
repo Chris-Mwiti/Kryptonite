@@ -8,7 +8,7 @@ pub fn printAnotherMessage(writer: *std.Io.Writer) !void {
     var gpa = std.heap.DebugAllocator(.{}){};
     const allocator = gpa.allocator();
 
-    const name: [] const u8 = "Chris";
+    const name: []const u8 = "Chris";
     const output = try std.fmt.allocPrint(allocator, "Hello {s}!!!", .{name});
 
     try writer.print("{s}\n", .{output});
@@ -34,5 +34,19 @@ pub fn fixedBufferAllocator() !void {
    
     defer allocator.free(input);
 
+}
+
+pub fn heapFixedBufferAllocator() !void {
+    //creation of a heap page_allocator with a fixed size of 4KB
+    const heap = std.heap.page_allocator;
+
+    const memory_buffer = try heap.alloc(u8, 1024);
+    defer heap.free(memory_buffer);
+    var fba = std.heap.FixedBufferAllocator.init(memory_buffer);
+
+    const allocator = fba.allocator();
+
+    const input = try allocator.alloc(u8, 124);
+    defer allocator.free(input);
 }
 
