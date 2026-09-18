@@ -27,6 +27,8 @@ pub fn main(init: std.process.Init) !void {
     const stdout_writer = &stdout_file_writer.interface;
 
     try Kryptonite.printAnotherMessage(stdout_writer);
+    try Kryptonite.fixedBufferAllocator();
+    try Kryptonite.heapFixedBufferAllocator();
 
     try stdout_writer.flush(); // Don't forget to flush!
 }
